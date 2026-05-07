@@ -1,0 +1,13 @@
+/* Подключение шрифтов (пример через Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+/* Назначение шрифтов */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, .title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}

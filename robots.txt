@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://towerrush1w.vercel.app/sitemap.xml
+Host: towerrush1w.vercel.app
