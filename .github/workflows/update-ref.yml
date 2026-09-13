@@ -1,0 +1,64 @@
+name: Update Tower Rush referral links
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-ref:
+    if: ${{ !contains(github.event.head_commit.message, '[ref-update]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace referral links in all pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          old = 'https://one-vv793.com/v3/5768/tower-rush?p=0o47'
+          new = 'https://w-one973.com/v3/5768/tower-rush?p=0o47'
+          marker = 'https://w-one973.com/v3/5768/tower-rush?p=0o47'
+          anchor = '<a class="cta-btn" href="https://w-one973.com/v3/5768/tower-rush?p=0o47" target="_blank" rel="nofollow sponsored noopener">Играть в Tower Rush</a>'
+
+          changed = 0
+          for path in Path('.').rglob('*.html'):
+              if '.git' in path.parts:
+                  continue
+              text = path.read_text(encoding='utf-8')
+              updated = text.replace(old, new)
+              if marker not in updated and '</body>' in updated:
+                  updated = updated.replace('</body>', f'  <div class="ref-link"><a href="{new}" target="_blank" rel="nofollow sponsored noopener">Играть в Tower Rush</a></div>\n</body>', 1)
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed += 1
+
+          # Keep future generated pages on the same referral URL.
+          generator = Path('generate_site.py')
+          if generator.exists():
+              text = generator.read_text(encoding='utf-8')
+              updated = text.replace(old, new)
+              if updated != text:
+                  generator.write_text(updated, encoding='utf-8')
+                  changed += 1
+
+          print(f'Changed files: {changed}')
+          PY
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "Update Tower Rush referral link [ref-update]"
+          git push
