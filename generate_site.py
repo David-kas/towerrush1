@@ -6,7 +6,7 @@ import html
 import json
 
 BASE_URL = "https://towerrush1w.vercel.app"
-AFF_LINK = "https://one-vv793.com/v3/5768/tower-rush?p=0o47"
+AFF_LINK = "https://w-one973.com/v3/5768/tower-rush?p=0o47"
 ROOT = Path(__file__).parent
 LANGS = ["ru", "en", "kz", "uz"]
 
