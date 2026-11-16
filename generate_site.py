@@ -5,6 +5,8 @@ from pathlib import Path
 import html
 import json
 
+from seo_titles import page_title
+
 BASE_URL = "https://towerrush1w.vercel.app"
 AFF_LINK = "https://w-one973.com/v3/5768/tower-rush?p=0o47"
 ROOT = Path(__file__).parent
@@ -393,7 +395,7 @@ def mobile_lang_options(current: str, slug: str) -> str:
 def page_html(lang: str, slug: str, title_suffix: str) -> str:
     cfg = I18N[lang]
     lslug = localized_slug(lang, slug)
-    title = f"{title_suffix} | {cfg['site_name']}"
+    title = page_title(lang, slug)
     desc = f"{cfg['meta_base']} Section: {slug or 'home'}."
     url = path_to_url(lslug)
     canonical = url
